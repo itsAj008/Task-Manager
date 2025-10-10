@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/* CSS Custom Properties for theme colors */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #d1d5db;
+}
+
+.dark {
+  color-scheme: dark;
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --border-color: #4b5563;
+}
+
+/* Apply theme colors */
+.theme-bg-primary { background-color: var(--bg-primary); }
+.theme-bg-secondary { background-color: var(--bg-secondary); }
+.theme-bg-tertiary { background-color: var(--bg-tertiary); }
+.theme-text-primary { color: var(--text-primary); }
+.theme-text-secondary { color: var(--text-secondary); }
+.theme-border { border-color: var(--border-color); }
+
+/* Interactive hover states */
+.hover\:theme-bg-primary:hover { background-color: var(--bg-primary); }
+.hover\:theme-bg-secondary:hover { background-color: var(--bg-secondary); }
+.hover\:theme-bg-tertiary:hover { background-color: var(--bg-tertiary); }
+.hover\:theme-text-primary:hover { color: var(--text-primary); }
+.hover\:theme-text-secondary:hover { color: var(--text-secondary); }
