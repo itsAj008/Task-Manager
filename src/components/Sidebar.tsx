@@ -140,7 +140,7 @@ const FolderItem = memo(({ folder }: FolderItemProps) => {
 
         {/* Files */}
         {folder.isExpanded && (
-          <div className="ml-10">
+          <div className="ml-6">
             {folder.files.map((file) => (
               <FileItem key={file.id} file={file} folderId={folder.id} />
             ))}

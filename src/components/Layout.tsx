@@ -51,7 +51,7 @@ const Layout = memo(() => {
           
           {/* User menu */}
           <div className="flex items-center gap-2">
-            <div className="relative group mt-2">
+            <div className="relative group">
               <Avatar user={user} size="md" className="cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all" />
               
               {/* Tooltip */}
