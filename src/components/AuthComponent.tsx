@@ -14,7 +14,7 @@ const AuthComponent = () => {
         return 'https://itsaj008.github.io/Task-Manager/'
       }
       // In development
-      return 'http://localhost:3000/'
+      return 'http://localhost:5174/'
     }
     return 'https://itsaj008.github.io/Task-Manager/'
   }

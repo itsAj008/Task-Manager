@@ -51,11 +51,11 @@ interface FileSystemStore extends AppState {
 export const useFileSystemStore = create<FileSystemStore>()(
   persist(
     (set, get) => ({
-      // Initial state
+      // Initial state - sidebar closed by default (will be opened by resize handler for desktop)
       folders: [],
       openFiles: [],
       activeFileId: null,
-      sidebarOpen: true,
+      sidebarOpen: false,
       user: null,
       session: null,
       loading: false,
@@ -478,7 +478,7 @@ export const useFileSystemStore = create<FileSystemStore>()(
     {
       name: 'file-system-store',
       partialize: (state) => ({
-        sidebarOpen: state.sidebarOpen,
+        // Don't persist sidebarOpen - let it be determined by screen size
         activeFileId: state.activeFileId,
         openFiles: state.openFiles,
       }),
@@ -493,6 +493,19 @@ export const useFileSystemStore = create<FileSystemStore>()(
               activeFileId: state?.activeFileId,
               fileNames: state?.openFiles?.map(f => f.name) || []
             })
+            
+            // Set initial sidebar state based on screen size after hydration
+            if (state && typeof window !== 'undefined') {
+              const shouldBeOpen = window.innerWidth > 767
+              if (state.sidebarOpen !== shouldBeOpen) {
+                setTimeout(() => {
+                  const store = useFileSystemStore.getState()
+                  if (store.sidebarOpen !== shouldBeOpen) {
+                    store.toggleSidebar()
+                  }
+                }, 100)
+              }
+            }
           }
         }
       }

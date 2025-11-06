@@ -295,22 +295,29 @@ const Sidebar = memo(() => {
   const [newFolderName, setNewFolderName] = useState('')
   const sidebarRef = useRef<HTMLDivElement>(null)
 
-  // Auto-open sidebar when screen size exceeds 767px and auto-close when below 768px
+  // Auto-open sidebar when screen size exceeds 767px (but don't auto-close on mobile)
   useEffect(() => {
     const handleResize = () => {
+      // Only auto-open on larger screens, never auto-close
       if (window.innerWidth > 767 && !sidebarOpen) {
-        toggleSidebar()
-      } else if (window.innerWidth < 768 && sidebarOpen) {
         toggleSidebar()
       }
     }
 
-    window.addEventListener('resize', handleResize)
+    // Debounce resize events
+    let timeoutId: number
+    const debouncedResize = () => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(handleResize, 100)
+    }
+
+    window.addEventListener('resize', debouncedResize)
     // Check initial screen size
     handleResize()
 
     return () => {
-      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('resize', debouncedResize)
+      clearTimeout(timeoutId)
     }
   }, [sidebarOpen, toggleSidebar])
 
