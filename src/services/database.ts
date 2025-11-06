@@ -1,8 +1,8 @@
 import { supabase } from '../lib/supabase'
 import type { Database, Folder, TodoFile, Todo } from '../types'
 
-type FolderRow = Database['public']['Tables']['folders']['Row']
-type FileRow = Database['public']['Tables']['files']['Row']
+// type FolderRow = Database['public']['Tables']['folders']['Row']
+// type FileRow = Database['public']['Tables']['files']['Row']
 type TodoRow = Database['public']['Tables']['todos']['Row']
 
 export class DatabaseService {

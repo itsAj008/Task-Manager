@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { Folder, TodoFile, Todo, AppState } from '../types'
+import type { Folder, TodoFile, AppState } from '../types'
 import { DatabaseService } from '../services/database'
-import { supabase } from '../lib/supabase'
+// import { supabase } from '../lib/supabase'
 import type { User, Session } from '@supabase/supabase-js'
 
 interface FileSystemStore extends AppState {
