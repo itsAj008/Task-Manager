@@ -34,3 +34,25 @@
 .hover\:theme-bg-tertiary:hover { background-color: var(--bg-tertiary); }
 .hover\:theme-text-primary:hover { color: var(--text-primary); }
 .hover\:theme-text-secondary:hover { color: var(--text-secondary); }
+
+/* Mobile-specific utilities */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 767px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+}

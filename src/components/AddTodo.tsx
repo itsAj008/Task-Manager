@@ -31,20 +31,20 @@ const AddTodo = memo(({ fileId, onAdd }: AddTodoProps) => {
   }
 
   return (
-    <div className='px-5 py-2 flex gap-5'>
+    <div className='flex gap-2 sm:gap-3'>
       <input 
         type="text" 
-        className='border border-[#6C63FF] w-[60vh] rounded-sm px-2 py-1 theme-bg-primary theme-text-primary transition-colors duration-200' 
+        className='border border-[#6C63FF] flex-1 rounded-sm px-2 sm:px-3 py-2 theme-bg-primary theme-text-primary transition-colors duration-200 text-sm sm:text-base' 
         value={input} 
         onChange={e => setInput(e.target.value)}
         onKeyPress={handleKeyPress}
         placeholder="Enter a todo..."
       />
       <button 
-        className='px-5 bg-[#6C63FF] hover:bg-[#5A52E0] rounded-md text-sm text-white cursor-pointer transition-colors duration-200' 
+        className='px-3 sm:px-5 bg-[#6C63FF] hover:bg-[#5A52E0] rounded-md text-xs sm:text-sm text-white cursor-pointer transition-colors duration-200 whitespace-nowrap' 
         onClick={handleAdd}
       >
-        add
+        Add
       </button>
     </div>
   )

@@ -281,6 +281,14 @@ export const useFileSystemStore = create<FileSystemStore>()(
             activeFileId: file.id
           }
         })
+        
+        // Auto-close sidebar on mobile when opening a file
+        if (typeof window !== 'undefined' && window.innerWidth <= 767) {
+          const state = get()
+          if (state.sidebarOpen) {
+            setTimeout(() => get().toggleSidebar(), 100)
+          }
+        }
       },
 
       closeFile: (fileId: string) => {

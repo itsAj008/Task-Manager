@@ -355,16 +355,24 @@ const Sidebar = memo(() => {
 
   return (
     <>
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
+      
       {/* Sidebar */}
       {sidebarOpen && (
         <div 
           ref={sidebarRef}
-          className="fixed md:relative left-0 top-0 md:top-auto h-full md:h-auto w-64 theme-bg-secondary theme-border border-r flex flex-col z-50 md:z-auto pt-12 md:pt-0"
+          className="fixed md:relative left-0 top-0 md:top-auto h-full md:h-auto w-64 sm:w-72 md:w-64 theme-bg-secondary theme-border border-r flex flex-col z-50 md:z-auto pt-12 sm:pt-14 md:pt-0"
         >
           {/* Header */}
-          <div className="p-3 theme-border border-b">
+          <div className="p-3 sm:p-4 theme-border border-b">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold theme-text-secondary uppercase tracking-wide">
+              <h2 className="text-xs sm:text-sm font-semibold theme-text-secondary uppercase tracking-wide">
                 Explorer
               </h2>
               <div className="flex items-center gap-1">
@@ -377,6 +385,16 @@ const Sidebar = memo(() => {
                     <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
                     <circle cx="15" cy="15" r="3.5" fill="#10b981"/>
                     <path d="M15 12.5v5m-2.5-2.5h5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+                {/* Close button - only show on smaller screens */}
+                                <button
+                  onClick={() => setShowNewFolderInput(true)}
+                  className="p-1 hover:theme-bg-tertiary rounded"
+                  title="New Folder"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
                   </svg>
                 </button>
                 {/* Close button - only show on smaller screens */}
