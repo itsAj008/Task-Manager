@@ -41,7 +41,7 @@ const AuthComponent = () => {
               },
             }}
             providers={['google']}
-            redirectTo={window.location.origin}
+            redirectTo={import.meta.env.PROD ? 'https://itsaj008.github.io/Task-Manager/' : window.location.origin}
             showLinks={true}
           />
           
