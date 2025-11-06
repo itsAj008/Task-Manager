@@ -5,6 +5,19 @@ import { useTheme } from '../contexts/ThemeContext'
 
 const AuthComponent = () => {
   const { theme } = useTheme()
+  
+  // Determine the correct redirect URL based on environment
+  const getRedirectUrl = () => {
+    if (typeof window !== 'undefined') {
+      // In production (GitHub Pages)
+      if (window.location.hostname === 'itsaj008.github.io') {
+        return 'https://itsaj008.github.io/Task-Manager/'
+      }
+      // In development
+      return 'http://localhost:3000/'
+    }
+    return 'https://itsaj008.github.io/Task-Manager/'
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center theme-bg-primary px-4">
@@ -41,7 +54,7 @@ const AuthComponent = () => {
               },
             }}
             providers={['google']}
-            redirectTo={import.meta.env.PROD ? 'https://itsaj008.github.io/Task-Manager/' : window.location.origin}
+            redirectTo={getRedirectUrl()}
             showLinks={true}
           />
           
