@@ -456,6 +456,7 @@ export const useFileSystemStore = create<FileSystemStore>()(
           // Update completed field based on status for backward compatibility
           const completed = status === 'completed'
           await DatabaseService.updateTodo(todoId, { completed })
+          await DatabaseService.updateTodoStatus(todoId, status)
           
           set(state => ({
             folders: state.folders.map(folder => ({

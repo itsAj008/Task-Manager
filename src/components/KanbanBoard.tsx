@@ -12,6 +12,7 @@ const KanbanBoard = memo(({ fileId }: KanbanBoardProps) => {
   const { getActiveFile, updateTodoStatus, deleteTodo, updateTodo } = useFileSystemStore()
   const [searchTerm, setSearchTerm] = useState('')
   const [draggedTodo, setDraggedTodo] = useState<Todo | null>(null)
+  const [activeTab, setActiveTab] = useState<TodoStatus>('new') // For mobile tabs
   
   const activeFile = getActiveFile()
   
@@ -61,6 +62,10 @@ const KanbanBoard = memo(({ fileId }: KanbanBoardProps) => {
     updateTodo(fileId, todoId, newText)
   }
 
+  const handleStatusChange = (todoId: number, status: TodoStatus) => {
+    updateTodoStatus(fileId, todoId, status)
+  }
+
   const columns = [
     { 
       id: 'new' as TodoStatus, 
@@ -107,8 +112,57 @@ const KanbanBoard = memo(({ fileId }: KanbanBoardProps) => {
         </div>
       </div>
 
-      {/* Kanban Board */}
-      <div className="flex-1 flex gap-4 p-4 overflow-auto">
+      {/* Mobile Tabs (visible on small screens) */}
+      <div className="md:hidden theme-border border-b">
+        <div className="flex">
+          {columns.map(column => (
+            <button
+              key={column.id}
+              onClick={() => setActiveTab(column.id)}
+              className={`flex-1 py-3 px-4 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === column.id
+                  ? 'border-blue-500 text-blue-600 bg-blue-50 dark:bg-blue-900/30'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <div className={`w-2 h-2 rounded-full bg-${column.color}-500`}></div>
+                <span>{column.title}</span>
+                <span className="ml-1 px-2 py-0.5 text-xs bg-gray-200 dark:bg-gray-700 rounded-full">
+                  {column.count}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile View (single column) */}
+      <div className="md:hidden flex-1 overflow-auto">
+        <div className="p-4 space-y-3">
+          {todosByStatus[activeTab].map(todo => (
+            <div key={todo.id} className="theme-bg-secondary border theme-border rounded-lg">
+              <TodoCard
+                todo={todo}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onDelete={handleDeleteTodo}
+                onUpdate={handleUpdateTodo}
+                onStatusChange={handleStatusChange}
+              />
+            </div>
+          ))}
+          {todosByStatus[activeTab].length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              <div className="mb-2">No items in {columns.find(c => c.id === activeTab)?.title}</div>
+              <div className="text-sm">Tasks will appear here when added</div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Desktop Kanban Board (hidden on mobile) */}
+      <div className="hidden md:flex flex-1 gap-4 p-4 overflow-auto">
         {columns.map(column => (
           <KanbanColumn
             key={column.id}
@@ -128,6 +182,7 @@ const KanbanBoard = memo(({ fileId }: KanbanBoardProps) => {
                 onDragEnd={handleDragEnd}
                 onDelete={handleDeleteTodo}
                 onUpdate={handleUpdateTodo}
+                onStatusChange={handleStatusChange}
               />
             ))}
           </KanbanColumn>

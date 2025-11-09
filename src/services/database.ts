@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase'
-import type { Database, Folder, TodoFile, Todo } from '../types'
+import type { Database, Folder, TodoFile, Todo, TodoStatus } from '../types'
 
 // type FolderRow = Database['public']['Tables']['folders']['Row']
 // type FileRow = Database['public']['Tables']['files']['Row']
@@ -127,6 +127,7 @@ export class DatabaseService {
         file_id: fileId,
         text,
         user_id: user.id,
+        // Note: status column doesn't exist yet, using completed field
       })
       .select()
       .single()
@@ -139,6 +140,18 @@ export class DatabaseService {
     const { error } = await supabase
       .from('todos')
       .update(updates)
+      .eq('id', id)
+
+    if (error) throw error
+  }
+
+  static async updateTodoStatus(id: number, status: string) {
+    // For now, just update the completed field based on status
+    // TODO: Add status column to database schema
+    const completed = status === 'completed'
+    const { error } = await supabase
+      .from('todos')
+      .update({ completed })
       .eq('id', id)
 
     if (error) throw error
@@ -179,6 +192,14 @@ export class DatabaseService {
   }
 
   private static transformTodoFromDB(todoData: TodoRow): Todo {
+    // Determine status based on completed field since status column doesn't exist yet
+    let status: TodoStatus = 'new'
+    if (todoData.completed) {
+      status = 'completed'
+    } else {
+      status = 'new' // Default for non-completed items
+    }
+
     return {
       id: todoData.id,
       text: todoData.text,
@@ -187,6 +208,7 @@ export class DatabaseService {
       user_id: todoData.user_id,
       created_at: todoData.created_at,
       updated_at: todoData.updated_at,
+      status: status,
     }
   }
 }

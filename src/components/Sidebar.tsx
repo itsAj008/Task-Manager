@@ -51,13 +51,13 @@ const FolderItem = memo(({ folder }: FolderItemProps) => {
     <>
       <div className="select-none">
         {/* Folder Header */}
-        <div className="flex items-center gap-1 py-1 px-2 hover:theme-bg-secondary group">
+        <div className="flex items-center gap-2 py-2 px-3 hover:theme-bg-secondary rounded-lg mx-1 group transition-colors duration-200">
           <button
             onClick={() => toggleFolder(folder.id)}
-            className="p-1 hover:theme-bg-tertiary rounded"
+            className="p-1 hover:theme-bg-tertiary rounded-md transition-colors duration-200"
           >
             <svg 
-              className={`w-3 h-3 transition-transform ${folder.isExpanded ? 'rotate-90' : ''}`}
+              className={`w-3 h-3 transition-transform duration-200 theme-text-secondary ${folder.isExpanded ? 'rotate-90' : ''}`}
               fill="currentColor" 
               viewBox="0 0 20 20"
             >
@@ -65,38 +65,41 @@ const FolderItem = memo(({ folder }: FolderItemProps) => {
             </svg>
           </button>
           
-          <svg className="w-4 h-4 text-blue-500 mr-1" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-          </svg>
-          
-          {isRenaming ? (
-            <input
-              type="text"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              onBlur={handleRename}
-              onKeyDown={(e) => handleKeyPress(e, handleRename)}
-              className="flex-1 px-1 py-0 text-sm bg-transparent border-b border-blue-500 focus:outline-none"
-              autoFocus
-            />
-          ) : (
-            <span 
-              className="flex-1 text-sm cursor-pointer"
-              onDoubleClick={() => setIsRenaming(true)}
-            >
-              {folder.name}
-            </span>
-          )}
+          <div className="flex items-center gap-2 flex-1">
+            <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+            </svg>
+            
+            {isRenaming ? (
+              <input
+                type="text"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                onBlur={handleRename}
+                onKeyDown={(e) => handleKeyPress(e, handleRename)}
+                className="flex-1 px-2 py-1 text-sm theme-bg-primary theme-border border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                autoFocus
+              />
+            ) : (
+              <span 
+                className="flex-1 text-sm theme-text-primary font-medium cursor-pointer"
+                onDoubleClick={() => setIsRenaming(true)}
+                title="Double-click to rename"
+              >
+                {folder.name}
+              </span>
+            )}
+          </div>
           
           {/* Action buttons */}
-          <div className="opacity-0 group-hover:opacity-100 flex gap-1">
+          <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity duration-200">
             <DropdownMenu
               trigger={
                 <button
-                  className="p-1 hover:theme-bg-tertiary rounded"
+                  className="p-1.5 hover:theme-bg-tertiary rounded-md transition-colors duration-200"
                   title="More options"
                 >
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-3 h-3 theme-text-secondary" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                   </svg>
                 </button>
@@ -213,10 +216,12 @@ const FileItem = memo(({ file, folderId }: FileItemProps) => {
 
   return (
     <>
-      <div className="flex items-center gap-1 py-1 px-2 hover:theme-bg-secondary group">
-        <svg className="w-4 h-4 theme-text-secondary" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
-        </svg>
+      <div className="flex items-center gap-2 py-1.5 px-3 ml-6 mr-2 hover:theme-bg-secondary rounded-md group transition-colors duration-200">
+        <div className="w-4 h-4 text-gray-500 flex-shrink-0">
+          <svg fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+          </svg>
+        </div>
         
         {isRenaming ? (
           <input
@@ -225,24 +230,25 @@ const FileItem = memo(({ file, folderId }: FileItemProps) => {
             onChange={(e) => setNewName(e.target.value)}
             onBlur={handleRename}
             onKeyDown={handleKeyPress}
-            className="flex-1 px-1 py-0 text-sm bg-transparent border-b border-blue-500 focus:outline-none"
+            className="flex-1 px-2 py-1 text-sm theme-bg-primary theme-border border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             autoFocus
           />
         ) : (
           <span 
-            className="flex-1 text-sm cursor-pointer hover:text-blue-500"
+            className="flex-1 text-sm theme-text-primary cursor-pointer hover:text-blue-500 transition-colors duration-200"
             onClick={() => openFile(file)}
             onDoubleClick={() => setIsRenaming(true)}
+            title={`Open ${file.name} - Double-click to rename`}
           >
             {file.name}
           </span>
         )}
         
-        <div className="opacity-0 group-hover:opacity-100">
+        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <DropdownMenu
             trigger={
               <button
-                className="p-1 hover:theme-bg-tertiary rounded"
+                className="p-1.5 hover:theme-bg-tertiary rounded-md transition-colors duration-200"
                 title="More options"
               >
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -374,43 +380,39 @@ const Sidebar = memo(() => {
       {sidebarOpen && (
         <div 
           ref={sidebarRef}
-          className="fixed md:relative left-0 top-0 md:top-auto h-full md:h-auto w-64 sm:w-72 md:w-64 theme-bg-secondary theme-border border-r flex flex-col z-50 md:z-auto pt-12 sm:pt-14 md:pt-0"
+          className="fixed md:relative left-0 top-0 md:top-auto h-full md:h-auto w-64 sm:w-72 md:w-64 theme-bg-secondary theme-border border-r flex flex-col z-50 md:z-auto pt-12 sm:pt-14 md:pt-0 shadow-lg md:shadow-none"
         >
           {/* Header */}
-          <div className="p-3 sm:p-4 theme-border border-b">
+          <div className="p-4 theme-border border-b bg-gradient-to-r from-blue-500/10 to-purple-500/10">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs sm:text-sm font-semibold theme-text-secondary uppercase tracking-wide">
-                Explorer
-              </h2>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold theme-text-primary">Project Explorer</h2>
+                  <p className="text-xs theme-text-secondary">Azure DevOps Style</p>
+                </div>
+              </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setShowNewFolderInput(true)}
-                  className="p-1 hover:theme-bg-tertiary rounded"
+                  className="p-2 hover:theme-bg-tertiary rounded-lg transition-colors duration-200"
                   title="New Folder"
                 >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                    <circle cx="15" cy="15" r="3.5" fill="#10b981"/>
-                    <path d="M15 12.5v5m-2.5-2.5h5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-                  </svg>
-                </button>
-                {/* Close button - only show on smaller screens */}
-                                <button
-                  onClick={() => setShowNewFolderInput(true)}
-                  className="p-1 hover:theme-bg-tertiary rounded"
-                  title="New Folder"
-                >
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 theme-text-secondary" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
                   </svg>
                 </button>
                 {/* Close button - only show on smaller screens */}
                 <button
                   onClick={toggleSidebar}
-                  className="p-1 hover:theme-bg-tertiary rounded md:hidden"
+                  className="p-2 hover:theme-bg-tertiary rounded-lg md:hidden transition-colors duration-200"
                   title="Close Sidebar"
                 >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 theme-text-secondary" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </button>

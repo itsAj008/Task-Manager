@@ -112,6 +112,7 @@ export interface Database {
           user_id: string
           text: string
           completed: boolean
+          status: string
           created_at: string
           updated_at: string
         }
@@ -121,6 +122,7 @@ export interface Database {
           user_id: string
           text: string
           completed?: boolean
+          status?: string
           created_at?: string
           updated_at?: string
         }
@@ -130,6 +132,7 @@ export interface Database {
           user_id?: string
           text?: string
           completed?: boolean
+          status?: string
           created_at?: string
           updated_at?: string
         }
