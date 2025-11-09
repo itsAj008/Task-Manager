@@ -1,8 +1,11 @@
 // Types for our file system
+export type TodoStatus = 'new' | 'in-progress' | 'completed'
+
 export interface Todo {
   id: number
   text: string
   completed: boolean
+  status: TodoStatus // New field for kanban columns
   file_id?: string
   user_id?: string
   created_at?: string

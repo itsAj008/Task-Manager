@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import { useFileSystemStore } from '../store/fileSystemStore'
-import AddTodo from './AddTodo'
-import TodoItem from './TodoItem'
+import KanbanBoard from './KanbanBoard'
 
 const FileEditor = memo(() => {
   const { getActiveFile, activeFileId } = useFileSystemStore()
@@ -38,44 +37,23 @@ const FileEditor = memo(() => {
           {/* File stats */}
           <div className="flex gap-3 sm:gap-4 text-xs sm:text-sm theme-text-secondary">
             <span className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              {activeFile.todos.filter(todo => todo.completed).length} completed
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              {activeFile.todos.filter(todo => (todo.status || 'new') === 'new').length} new
             </span>
             <span className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-              {activeFile.todos.filter(todo => !todo.completed).length} pending
+              <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+              {activeFile.todos.filter(todo => todo.status === 'in-progress').length} in progress
+            </span>
+            <span className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              {activeFile.todos.filter(todo => todo.status === 'completed' || todo.completed).length} completed
             </span>
           </div>
         </div>
       </div>
 
-      {/* Add todo section */}
-      <div className="p-3 sm:p-4 theme-border border-b">
-        <AddTodo fileId={activeFileId} />
-      </div>
-
-      {/* Todos list */}
-      <div className="flex-1 overflow-y-auto p-3 sm:p-4">
-        {activeFile.todos.length === 0 ? (
-          <div className="text-center py-8 sm:py-12">
-            <svg className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 theme-text-secondary opacity-50" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-            </svg>
-            <p className="theme-text-secondary text-sm sm:text-base">No todos yet</p>
-            <p className="text-xs sm:text-sm theme-text-secondary opacity-75 mt-1">Add your first todo above</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {activeFile.todos.map((todo) => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                fileId={activeFileId}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      {/* Kanban Board */}
+      <KanbanBoard fileId={activeFileId!} />
     </div>
   )
 })

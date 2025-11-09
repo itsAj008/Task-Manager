@@ -34,6 +34,7 @@ interface FileSystemStore extends AppState {
   toggleTodo: (fileId: string, todoId: number) => Promise<void>
   deleteTodo: (fileId: string, todoId: number) => Promise<void>
   updateTodo: (fileId: string, todoId: number, text: string) => Promise<void>
+  updateTodoStatus: (fileId: string, todoId: number, status: 'new' | 'in-progress' | 'completed') => Promise<void>
   
   // UI actions
   toggleSidebar: () => void
@@ -447,6 +448,44 @@ export const useFileSystemStore = create<FileSystemStore>()(
           }))
         } catch (error) {
           console.error('Error updating todo:', error)
+        }
+      },
+
+      updateTodoStatus: async (fileId: string, todoId: number, status: 'new' | 'in-progress' | 'completed') => {
+        try {
+          // Update completed field based on status for backward compatibility
+          const completed = status === 'completed'
+          await DatabaseService.updateTodo(todoId, { completed })
+          
+          set(state => ({
+            folders: state.folders.map(folder => ({
+              ...folder,
+              files: folder.files.map(file =>
+                file.id === fileId
+                  ? {
+                      ...file,
+                      todos: file.todos.map(todo =>
+                        todo.id === todoId ? { ...todo, status, completed } : todo
+                      ),
+                      updatedAt: new Date()
+                    }
+                  : file
+              )
+            })),
+            openFiles: state.openFiles.map(file =>
+              file.id === fileId
+                ? {
+                    ...file,
+                    todos: file.todos.map(todo =>
+                      todo.id === todoId ? { ...todo, status, completed } : todo
+                    ),
+                    updatedAt: new Date()
+                  }
+                : file
+            )
+          }))
+        } catch (error) {
+          console.error('Error updating todo status:', error)
         }
       },
 

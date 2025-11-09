@@ -1,23 +1,27 @@
 @import "tailwindcss";
 
-/* CSS Custom Properties for theme colors */
+/* CSS Custom Properties for Azure DevOps-inspired theme */
 :root {
   --bg-primary: #ffffff;
-  --bg-secondary: #f3f4f6;
-  --bg-tertiary: #e5e7eb;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --border-color: #d1d5db;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --accent-blue: #0078d4;
+  --accent-blue-hover: #106ebe;
 }
 
 .dark {
   color-scheme: dark;
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --bg-tertiary: #374151;
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
-  --border-color: #4b5563;
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d30;
+  --bg-tertiary: #3e3e42;
+  --text-primary: #cccccc;
+  --text-secondary: #969696;
+  --border-color: #454545;
+  --accent-blue: #0078d4;
+  --accent-blue-hover: #1890ff;
 }
 
 /* Apply theme colors */
@@ -34,6 +38,66 @@
 .hover\:theme-bg-tertiary:hover { background-color: var(--bg-tertiary); }
 .hover\:theme-text-primary:hover { color: var(--text-primary); }
 .hover\:theme-text-secondary:hover { color: var(--text-secondary); }
+
+/* Azure DevOps-inspired button styles */
+.btn-primary {
+  background-color: var(--accent-blue);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-blue-hover);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Work item cards */
+.work-item-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.work-item-card:hover {
+  border-color: var(--accent-blue);
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.15);
+}
+
+/* Kanban column styling */
+.kanban-column {
+  background-color: var(--bg-secondary);
+  border-radius: 6px;
+  min-height: 400px;
+}
+
+.kanban-column-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-tertiary);
+  border-radius: 6px 6px 0 0;
+}
 
 /* Mobile-specific utilities */
 .scrollbar-hide {
@@ -55,4 +119,20 @@
 /* Prevent horizontal scroll on mobile */
 html, body {
   overflow-x: hidden;
+}
+
+/* Status indicators */
+.status-new {
+  background-color: #0078d4;
+  color: white;
+}
+
+.status-active {
+  background-color: #ff8c00;
+  color: white;
+}
+
+.status-completed {
+  background-color: #107c10;
+  color: white;
 }
